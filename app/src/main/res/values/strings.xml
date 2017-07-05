@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Retrofit &amp; EventBus</string>
+    <string name="app_name">RestaurantApp</string>
 
     <string name="action_search">Search</string>
     <string name="ad">AD</string>

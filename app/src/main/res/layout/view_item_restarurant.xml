@@ -17,11 +17,13 @@
         android:layout_alignParentRight="true"
         android:visibility="gone"/>
 
-    <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--app:srcCompat="@drawable/ic_bookmark_grey_24dp"/>-->
+    <TextView
+        android:id="@+id/textViewNew"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_new_releases_yellow_24dp"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/imageView"
