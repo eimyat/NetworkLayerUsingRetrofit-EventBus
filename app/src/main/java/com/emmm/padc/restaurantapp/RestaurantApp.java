@@ -12,6 +12,8 @@ import com.facebook.stetho.Stetho;
 
 public class RestaurantApp extends Application {
 
+    public static final String TAG = "RestaurantApp";
+
     public static RestaurantApp INSTANCE;
 
     @Override

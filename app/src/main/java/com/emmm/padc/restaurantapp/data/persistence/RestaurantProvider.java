@@ -41,11 +41,6 @@ public class RestaurantProvider extends ContentProvider {
         int matchUri = sUriMatcher.match(uri);
         switch (matchUri) {
             case RESTAURANT:
-                String restaurantTitle = RestaurantContract.RestaurantEntry.getTitleFromParam(uri);
-                if(TextUtils.isEmpty(restaurantTitle)) {
-                    selection = sRestaurantTitleSelection;
-                    selectionArgs = new String[]{restaurantTitle};
-                }
                 queryCursor = db.query(RestaurantContract.RestaurantEntry.TABLE_NAME,
                         projection,
                         selection,

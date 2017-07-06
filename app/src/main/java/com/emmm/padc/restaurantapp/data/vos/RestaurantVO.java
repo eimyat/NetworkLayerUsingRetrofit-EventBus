@@ -2,11 +2,14 @@ package com.emmm.padc.restaurantapp.data.vos;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
 
 import com.emmm.padc.restaurantapp.RestaurantApp;
 import com.emmm.padc.restaurantapp.data.persistence.RestaurantContract;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,6 +127,7 @@ public class RestaurantVO {
         }
         Context context = RestaurantApp.getContext();
         int insertedCount = context.getContentResolver().bulkInsert(RestaurantContract.RestaurantEntry.CONTENT_URI, restaurantCVs);
+        //Log.d(RestaurantApp.TAG, "inserted count, restaurants : " + insertedCount);
     }
 
     private static void saveRestaurantTags(String title, String[] tags) {
@@ -139,6 +143,7 @@ public class RestaurantVO {
         }
         Context context = RestaurantApp.getContext();
         int insertedCount = context.getContentResolver().bulkInsert(RestaurantContract.RestaurantTagEntry.CONTENT_URI, restaurantTagCVs);
+        //Log.d(RestaurantApp.TAG, "inserted count, restaurant tags : " + insertedCount);
     }
 
     private ContentValues parseToContentValues() {
@@ -152,5 +157,39 @@ public class RestaurantVO {
         cv.put(RestaurantContract.RestaurantEntry.COLUMN_IS_NEW, isNew);
         cv.put(RestaurantContract.RestaurantEntry.COLUMN_LEAD_TIME_IN_MIN, deliverTime);
         return cv;
+    }
+
+    public static RestaurantVO parseFromCursor (Cursor data) {
+        RestaurantVO restaurant = new RestaurantVO();
+        restaurant.title = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_TITLE));
+        restaurant.addrShort = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_ADD_SHORT));
+        restaurant.image = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_IMAGE));
+        restaurant.averageRatingValue = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_AVERAGE_RATING_VALUE));
+        restaurant.totalRatingCount = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_TOTAL_RATING_COUNT));
+        restaurant.isAd = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_IS_AD));
+        restaurant.isNew = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_IS_NEW));
+        restaurant.deliverTime = data.getString(data.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_LEAD_TIME_IN_MIN));
+        return restaurant;
+    }
+
+    public static String[] loadRestaurantTagsByTitle(String title) {
+        Context context = RestaurantApp.getContext();
+        ArrayList<String> tags = new ArrayList<>();
+
+        Cursor cursor = context.getContentResolver().query(
+                RestaurantContract.RestaurantTagEntry.buildRestaurantTagUriWithTitle(title),
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                tags.add(cursor.getString(cursor.getColumnIndex(RestaurantContract.RestaurantTagEntry.COLUMN_TAG)));
+            } while (cursor.moveToNext());
+        }
+        String[] tagArray = new String[tags.size()];
+        tags.toArray(tagArray);
+        return tagArray;
     }
 }

@@ -63,10 +63,11 @@ public class RetrofitDataAgent implements RestaurantDataAgent {
                 RestaurantListResponse restaurantListResponse = response.body();
                 if(restaurantListResponse == null) {
                     EventBus.getDefault().post(new DataEvent.FailedRestaurantLoadedEvent(restaurantListResponse.getMessage()));
+                    RestaurantVO.saveRestaurants(restaurantListResponse.getRestaurantList());
                     //Log.i(RetrofitDataAgent.class.getName(), restaurantListResponse.getMessage());
                 } else {
-                    EventBus.getDefault().post(new DataEvent.RestaurantLoadedEvent(restaurantListResponse.getRestaurantList()));
-                    //RestaurantVO.saveRestaurants(restaurantListResponse.getRestaurantList());
+                    //EventBus.getDefault().post(new DataEvent.RestaurantLoadedEvent(restaurantListResponse.getRestaurantList()));
+                    RestaurantModel.getInstance().notifyRestaurantsLoaded(restaurantListResponse.getRestaurantList());
                 }
             }
 

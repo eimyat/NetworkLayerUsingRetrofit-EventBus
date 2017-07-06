@@ -3,4 +3,6 @@
 
     <string name="action_search">Search</string>
     <string name="ad">AD</string>
+
+    <string name="content_authority">com.emmm.padc.restaurantapp</string>
 </resources>

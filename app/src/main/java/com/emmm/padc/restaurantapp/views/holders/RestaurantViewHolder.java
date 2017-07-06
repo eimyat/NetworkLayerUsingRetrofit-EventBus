@@ -23,6 +23,9 @@ public class RestaurantViewHolder extends BaseViewHolder<RestaurantVO> {
     @BindView(R.id.textViewAD)
     TextView tvAD;
 
+    @BindView(R.id.textViewNew)
+    TextView tvNew;
+
     @BindView(R.id.imageView)
     ImageView imageView;
 
@@ -57,6 +60,11 @@ public class RestaurantViewHolder extends BaseViewHolder<RestaurantVO> {
         else if(data.getIsAd().equalsIgnoreCase("false"))
             tvAD.setVisibility(View.GONE);
 
+        if(data.getIsNew().equalsIgnoreCase("true"))
+            tvNew.setVisibility(View.VISIBLE);
+        else if(data.getIsNew().equalsIgnoreCase("false"))
+            tvNew.setVisibility(View.GONE);
+
         ratingBar.setRating(Float.parseFloat(data.getAverageRatingValue()));
 
         tvRatingCount.setText("(" + data.getTotalRatingCount() + ")");
@@ -71,8 +79,6 @@ public class RestaurantViewHolder extends BaseViewHolder<RestaurantVO> {
 
         String tags = getTags(data.getTags());
         tvTags.setText(tags);
-
-        Log.i("ViewHolder", "Tags : " + tags);
     }
 
     private String getTags(String[] tags) {

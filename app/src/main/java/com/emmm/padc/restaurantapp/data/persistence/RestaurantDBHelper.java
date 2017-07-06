@@ -30,7 +30,7 @@ public class RestaurantDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_RESTAURANT_TAG_TABLE = "CREATE TABLE " + RestaurantContract.RestaurantTagEntry.TABLE_NAME + " (" +
             RestaurantContract.RestaurantTagEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             RestaurantContract.RestaurantTagEntry.COLUMN_RESTAURANT_TITLE + " TEXT NOT NULL, " +
-            RestaurantContract.RestaurantTagEntry.COLUMN_TAG + "TEXT NOT NULL, " +
+            RestaurantContract.RestaurantTagEntry.COLUMN_TAG + " TEXT NOT NULL, " +
 
             " UNIQUE (" + RestaurantContract.RestaurantTagEntry.COLUMN_RESTAURANT_TITLE + ", " +
             RestaurantContract.RestaurantTagEntry.COLUMN_TAG + ") ON CONFLICT IGNORE" +
