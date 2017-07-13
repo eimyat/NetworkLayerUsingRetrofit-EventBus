@@ -1,11 +1,10 @@
 package com.emmm.padc.restaurantapp.activities;
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,14 +14,13 @@ import android.widget.TextView;
 import com.emmm.padc.restaurantapp.R;
 import com.emmm.padc.restaurantapp.RestaurantApp;
 import com.emmm.padc.restaurantapp.adapters.RestaurantAdapter;
-import com.emmm.padc.restaurantapp.data.agents.retrofit.RetrofitDataAgent;
-import com.emmm.padc.restaurantapp.data.models.RestaurantModel;
 import com.emmm.padc.restaurantapp.data.persistence.RestaurantContract;
 import com.emmm.padc.restaurantapp.data.vos.RestaurantVO;
 import com.emmm.padc.restaurantapp.events.DataEvent;
+import com.emmm.padc.restaurantapp.mvp.presenters.RestaurantListPresenter;
+import com.emmm.padc.restaurantapp.mvp.views.RestaurantListView;
 import com.emmm.padc.restaurantapp.utils.RestaurantsConstants;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -32,7 +30,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+/**
+ * Created by EI on 7/12/2017.
+ */
+
+public class MVPMainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>, RestaurantListView {
 
     @BindView(R.id.tvNoOfRestaurants)
     TextView textViewNoOfRestaurants;
@@ -40,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.rv_restaurants)
     RecyclerView rvRestaurants;
 
+    private RestaurantListPresenter restaurantListPresenter;
     private RestaurantAdapter mRestaurantAdapter;
+    private List<RestaurantVO> mRestaurantList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //EventBus.getDefault().post(new DataEvent.RestaurantLoadedEvent());
+        restaurantListPresenter = new RestaurantListPresenter(this);
 
         mRestaurantAdapter = new RestaurantAdapter(getApplicationContext());
         rvRestaurants.setAdapter(mRestaurantAdapter);
@@ -66,26 +70,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onStart() {
         super.onStart();
-        if(!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
-        EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void loadedRestaurant(DataEvent.RestaurantLoadedEvent event) {
-        mRestaurantAdapter.setNewData(event.getRestaurantList());
-        textViewNoOfRestaurants.setText(mRestaurantAdapter.getItemCount() + " restaurants deliver to you");
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void failedLoadedRestaurant(DataEvent.FailedRestaurantLoadedEvent event) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -95,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 null,
                 null,
                 null,
-                RestaurantContract.RestaurantEntry.COLUMN_AVERAGE_RATING_VALUE);
+                RestaurantContract.RestaurantEntry.COLUMN_TITLE);
     }
 
     @Override
@@ -109,14 +103,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             } while (data.moveToNext());
         }
 
-        Log.d(RestaurantApp.TAG, "Retrieved attractions DESC : " + restaurantList.size());
-        mRestaurantAdapter.setNewData(restaurantList);
+        if (mRestaurantList.size() != restaurantList.size()) {
+            mRestaurantList = restaurantList;
+            restaurantListPresenter.displayRestaurantList(restaurantList);
+        }
 
-        textViewNoOfRestaurants.setText(mRestaurantAdapter.getItemCount() + " restaurants deliver to you");
+        if (restaurantList.size() == 0) {
+            restaurantListPresenter.loadRestaurantList();
+        }
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
 
+    }
+
+    @Override
+    public void displayRestaurantList(List<RestaurantVO> restaurantList) {
+        mRestaurantAdapter.setNewData(restaurantList);
+        textViewNoOfRestaurants.setText(mRestaurantAdapter.getItemCount() + " restaurants deliver to you");
     }
 }

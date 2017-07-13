@@ -22,10 +22,6 @@ public class RestaurantModel extends BaseModel {
 
     private RestaurantModel() {
         super();
-
-//        if (!EventBus.getDefault().isRegistered(this)) {
-//            EventBus.getDefault().register(this);
-//        }
     }
 
     public static RestaurantModel getInstance() {
@@ -41,7 +37,6 @@ public class RestaurantModel extends BaseModel {
 
     public void loadRestaurants() {
         RetrofitDataAgent.getInstance().loadRestaurants();
-        //dataAgent.loadRestaurants();
     }
 
     public void notifyRestaurantsLoaded(List<RestaurantVO> restaurantList) {
@@ -54,8 +49,7 @@ public class RestaurantModel extends BaseModel {
         mRestaurantList = restaurantList;
     }
 
-//    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-//    public void receiveAttactionList(DataEvent.RestaurantLoadedEvent event) {
-//        event.getRestaurantList();
-//    }
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void loadedRestaurant(DataEvent.RestaurantLoadedEvent event) {
+    }
 }

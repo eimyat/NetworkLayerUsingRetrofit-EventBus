@@ -1,7 +1,5 @@
 package com.emmm.padc.restaurantapp.data.agents.retrofit;
 
-import android.util.Log;
-
 import com.emmm.padc.restaurantapp.data.agents.RestaurantDataAgent;
 import com.emmm.padc.restaurantapp.data.models.RestaurantModel;
 import com.emmm.padc.restaurantapp.data.responses.RestaurantListResponse;
@@ -66,8 +64,8 @@ public class RetrofitDataAgent implements RestaurantDataAgent {
                     RestaurantVO.saveRestaurants(restaurantListResponse.getRestaurantList());
                     //Log.i(RetrofitDataAgent.class.getName(), restaurantListResponse.getMessage());
                 } else {
-                    //EventBus.getDefault().post(new DataEvent.RestaurantLoadedEvent(restaurantListResponse.getRestaurantList()));
-                    RestaurantModel.getInstance().notifyRestaurantsLoaded(restaurantListResponse.getRestaurantList());
+                    EventBus.getDefault().post(new DataEvent.RestaurantLoadedEvent(restaurantListResponse.getRestaurantList()));
+                    //RestaurantModel.getInstance().notifyRestaurantsLoaded(restaurantListResponse.getRestaurantList());
                 }
             }
 
