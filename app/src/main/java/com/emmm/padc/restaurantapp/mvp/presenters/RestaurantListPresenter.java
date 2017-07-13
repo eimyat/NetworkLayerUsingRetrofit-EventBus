@@ -1,7 +1,5 @@
 package com.emmm.padc.restaurantapp.mvp.presenters;
 
-import android.content.Context;
-
 import com.emmm.padc.restaurantapp.data.models.RestaurantModel;
 import com.emmm.padc.restaurantapp.data.vos.RestaurantVO;
 import com.emmm.padc.restaurantapp.mvp.views.RestaurantListView;

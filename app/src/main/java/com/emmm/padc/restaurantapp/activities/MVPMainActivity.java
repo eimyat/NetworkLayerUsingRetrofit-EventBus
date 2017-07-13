@@ -7,22 +7,16 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 
 import com.emmm.padc.restaurantapp.R;
-import com.emmm.padc.restaurantapp.RestaurantApp;
 import com.emmm.padc.restaurantapp.adapters.RestaurantAdapter;
 import com.emmm.padc.restaurantapp.data.persistence.RestaurantContract;
 import com.emmm.padc.restaurantapp.data.vos.RestaurantVO;
-import com.emmm.padc.restaurantapp.events.DataEvent;
 import com.emmm.padc.restaurantapp.mvp.presenters.RestaurantListPresenter;
 import com.emmm.padc.restaurantapp.mvp.views.RestaurantListView;
 import com.emmm.padc.restaurantapp.utils.RestaurantsConstants;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;

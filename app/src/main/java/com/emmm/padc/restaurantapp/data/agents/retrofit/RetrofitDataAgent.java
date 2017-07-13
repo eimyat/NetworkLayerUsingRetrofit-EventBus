@@ -1,7 +1,6 @@
 package com.emmm.padc.restaurantapp.data.agents.retrofit;
 
 import com.emmm.padc.restaurantapp.data.agents.RestaurantDataAgent;
-import com.emmm.padc.restaurantapp.data.models.RestaurantModel;
 import com.emmm.padc.restaurantapp.data.responses.RestaurantListResponse;
 import com.emmm.padc.restaurantapp.data.vos.RestaurantVO;
 import com.emmm.padc.restaurantapp.events.DataEvent;

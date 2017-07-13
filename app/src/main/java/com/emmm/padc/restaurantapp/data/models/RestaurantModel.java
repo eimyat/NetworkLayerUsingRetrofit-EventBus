@@ -4,7 +4,6 @@ import com.emmm.padc.restaurantapp.data.agents.retrofit.RetrofitDataAgent;
 import com.emmm.padc.restaurantapp.data.vos.RestaurantVO;
 import com.emmm.padc.restaurantapp.events.DataEvent;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 

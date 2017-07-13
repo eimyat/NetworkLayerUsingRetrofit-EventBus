@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.emmm.padc.restaurantapp.R;
 import com.emmm.padc.restaurantapp.RestaurantApp;
 import com.emmm.padc.restaurantapp.adapters.RestaurantAdapter;
-import com.emmm.padc.restaurantapp.data.agents.retrofit.RetrofitDataAgent;
-import com.emmm.padc.restaurantapp.data.models.RestaurantModel;
 import com.emmm.padc.restaurantapp.data.persistence.RestaurantContract;
 import com.emmm.padc.restaurantapp.data.vos.RestaurantVO;
 import com.emmm.padc.restaurantapp.events.DataEvent;
